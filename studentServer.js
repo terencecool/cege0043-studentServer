@@ -71,7 +71,7 @@ app.post('/reflectData',function(req,res){
 
 app.post('/uploadData',function(req,res){
  // note that we are using POST here as we are uploading data
- // so the parameters form part of the BODY of the request rather than theRESTful API
+ // so the parameters form part of the BODY of the request rather than the RESTful API
  console.dir(req.body);
  pool.connect(function(err,client,done) {
  if(err){
@@ -82,10 +82,16 @@ var name = req.body.name;
 var surname = req.body.surname;
 var module = req.body.module;
 var portnum = req.body.port_id;
- var querystring = "INSERT into formdata (name,surname,module, port_id) values ($1,$2,$3,$4) ";
+var language = req.body.language;
+var modulelist = req.body.modulelist;
+var lecturetime = req.body.lecturetime;
+var geometrystring = "st_geomfromtext('POINT("+req.body.longitude + " "+
+req.body.latitude + ")')";
+var querystring = "INSERT into formdata (name,surname,module, port_id,language,modulelist, lecturetime, geom) values ($1,$2,$3,$4,$5,$6,$7,";
+var querystring = querystring + geometrystring + ")";
  console.log(querystring);
- client.query( querystring,[name,surname,module,
-portnum],function(err,result) {
+ client.query( querystring,[name,surname,module, portnum, language,
+modulelist, lecturetime],function(err,result) {
  done();
  if(err){
  console.log(err);
@@ -95,6 +101,7 @@ portnum],function(err,result) {
  });
  });
 }); 
+
 
 
 
