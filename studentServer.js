@@ -18,6 +18,11 @@ console.log("The file " + filename + " was requested.");
 next();
 });
 
+app.use(function(req, res, next) {
+res.header("Access-Control-Allow-Origin", "*");
+res.header("Access-Control-Allow-Headers", "X-Requested-With");
+next();
+});
 // app.get('/test.html', function (req, res) {
 // // run some server-side code
 // console.log('test.html requested');
@@ -34,7 +39,7 @@ next();
 // });
 
 app.get('/',function (req,res) {
-res.send("hello world from the HTTP server");
+res.send("hello world from the Student HTTP server");
 });
 
 // serve static files - e.g. html, css
